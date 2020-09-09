@@ -1,0 +1,26 @@
+# 아이템 코드를 정확하게 적어주시기 바랍니다. https://papermc.io/javadocs/paper/1.16/org/bukkit/Material.html
+# 아이템코드: 확률
+# STONE: 60
+# COAL_ORE: 15
+# IRON_ORE: 10
+#
+# 그룹의 이름은 펄미션 이름입니다.
+#
+#test:
+#  Blocks:
+#    STONE: 60
+#    COAL_ORE: 15
+#    IRON_ORE: 15
+#    GOLD_ORE: 7
+#    EMERALD_ORE: 1
+#    DIAMOND_ORE: 2
+# 펄미션: test.dog = <group>.dog
+
+default:
+  Blocks:
+    STONE: 60
+    COAL_ORE: 15
+    IRON_ORE: 15
+    GOLD_ORE: 7
+    EMERALD_ORE: 1
+    DIAMOND_ORE: 2
