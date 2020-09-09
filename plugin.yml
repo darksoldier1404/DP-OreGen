@@ -2,3 +2,6 @@ name: DP-OreGen
 main: dp.dog.main.OreGen
 version: 0.0.1
 api-version: 1.16
+commands:
+  dog:
+  drl:
