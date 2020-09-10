@@ -1,6 +1,6 @@
 # DP-OreGen
 
-* DP-OreGen BETA v0.0.2
+* DP-OreGen BETA v0.0.3
 
 * 예정된 기능: GUI CONFIG SETTINGS
 
