@@ -1,18 +1,20 @@
 package dp.dog.main;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class OreGen extends JavaPlugin implements Listener {
     public static OreGen plugin;
     public Events events;
     public YamlConfiguration config;
-    public Map<String, HashSet<Tuple<String, Integer>>> blocks = new HashMap<>();
+    public Map<String, HashSet<Tuple<String, Double>>> blocks = new HashMap<>();
+    public Map<Location, Player> recentPlayer = new HashMap<>();
+    public Map<UUID, YamlConfiguration> playerData = new HashMap<>();
 
     public static OreGen getInstance() {
         return plugin;
@@ -26,13 +28,6 @@ public class OreGen extends JavaPlugin implements Listener {
         plugin.getServer().getPluginManager().registerEvents(events, plugin);
         plugin.getCommand("drl").setExecutor(new ReloadCommand());
         DPConfig.loadConfig();
-        for (String key : config.getConfigurationSection("").getKeys(false)) {
-            HashSet<Tuple<String, Integer>> hs = new HashSet<>();
-            for (String block : config.getConfigurationSection(key + ".Blocks").getKeys(false)) {
-                hs.add(new Tuple<>(block, config.getInt(key+".Blocks."+block)));
-            }
-            blocks.put(key, hs);
-        }
     }
 
     @Override
