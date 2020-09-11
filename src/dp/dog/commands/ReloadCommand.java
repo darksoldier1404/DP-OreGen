@@ -1,5 +1,6 @@
-package dp.dog.main;
+package dp.dog.commands;
 
+import dp.dog.main.DPConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
