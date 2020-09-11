@@ -1,12 +1,15 @@
 package dp.dog.main;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
@@ -17,6 +20,13 @@ public class Events implements Listener {
 
     public Events(OreGen plugin) {
         og = plugin;
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        if(e.getView().getTitle().contains("OreGen 확률")) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -31,17 +41,26 @@ public class Events implements Listener {
             DPConfig.savePlayerData(p.getUniqueId().toString(), pd);
         }else {
             YamlConfiguration pd = YamlConfiguration.loadConfiguration(new File(og.getDataFolder() + "/Players", p.getUniqueId() + ".dog"));
+            for(String key : og.blocks.keySet()) {
+                if(p.hasPermission(key+".dog")) {
+                    pd.set("CurrentGroup", key);
+                }
+            }
             og.playerData.put(p.getUniqueId(), pd);
         }
     }
 
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        Player p = e.getPlayer();
+        Block b = e.getBlock();
+        Location loc = b.getLocation().clone();
+        loc.setY(loc.getY()-1);
+        if(loc.getWorld().getBlockAt(loc).getType() == Material.OAK_FENCE) {
+            og.recentPlayer.put(e.getBlock().getLocation(), p);
+        }
+    }
 
-    /*
-    플레이어가 블럭을 부숨 -> 위에있던 물이 흐르는 이벤트가 발생함.
-    이벤트 -> 블럭이 발생시킨 이벤트라 플레이어가 없음
-    - 해당 로케이션에서 가장 가까운 플레이어를 대상으로 지정
-    - 최근에 해당 로케이션의 블럭을 부신 플레이어를 대상으로 지정
-     */
     @EventHandler
     public void bfte(BlockFromToEvent e) {
         if (e.getToBlock().getType() == Material.AIR && e.getToBlock().getRelative(e.getFace()).getType() == Material.OAK_FENCE) {
